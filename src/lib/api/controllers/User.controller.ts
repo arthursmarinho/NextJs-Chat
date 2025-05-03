@@ -1,14 +1,19 @@
-import {UserModel} from "@/lib/shared/models/User.model";
+import { UserModel } from "@/lib/shared/models/User.model";
 
-import {UserId} from "../decorators/Args";
-import {Controller} from "../decorators/Controller.decorator";
-import {Endpoint} from "../decorators/Endpoint.decorator";
-import {UserService} from "../services/User.service";
+import { UserId } from "../decorators/Args";
+import { Controller } from "../decorators/Controller.decorator";
+import { Endpoint } from "../decorators/Endpoint.decorator";
+import { UserService } from "../services/User.service";
 
-@Controller("/user")
+@Controller("/users")
 export class UserController {
+  @Endpoint("GET", "/")
+  static async getAllUsers(): Promise<UserModel[]> {
+    return UserService.getAllUsers();
+  }
+
   @Endpoint("GET", "/me")
-  static async getUser(@UserId() userId: string): Promise<UserModel> {
-    return UserService.getUser(userId);
+  static async getMe(@UserId() userId: string): Promise<UserModel> {
+    return UserService.getMe(userId);
   }
 }

@@ -50,10 +50,17 @@ createMessage: (args: ApiServiceInit<CreateMessageBodyDto, undefined, undefined>
         )
     }
 export const UserService = {
-getUser: () => apiClientHelper<
-        typeof UserService.getUser
+getAllUsers: () => apiClientHelper<
+        typeof UserService.getAllUsers
         >(
-          "/api/user/me",
+          "/api/users/",
+          "GET",
+          
+        ),
+getMe: () => apiClientHelper<
+        typeof UserService.getMe
+        >(
+          "/api/users/me",
           "GET",
           
         )

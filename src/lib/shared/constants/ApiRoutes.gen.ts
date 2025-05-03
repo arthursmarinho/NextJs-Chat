@@ -30,10 +30,15 @@ export const routesByMethod: RoutesByMethod = {
         regex: "^\/config\/firebase$",
         route: "/config/firebase",
       },{
-        handler: UserController.getUser,
+        handler: UserController.getAllUsers,
         params: [],
-        regex: "^\/user\/me$",
-        route: "/user/me",
+        regex: "^\/users$",
+        route: "/users/",
+      },{
+        handler: UserController.getMe,
+        params: [],
+        regex: "^\/users\/me$",
+        route: "/users/me",
       }
     ],
 POST: [
