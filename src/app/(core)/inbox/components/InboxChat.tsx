@@ -24,34 +24,36 @@ export const InboxChat = () => {
   }, []);
 
   useEffect(() => {
-    fetchChat();
+    const intervalId = setInterval(() => {
+      fetchChat();
+    }, 1500);
+
+    return () => clearInterval(intervalId);
   }, [userId]);
 
   const handleSendMessage = async (message: string) => {
     if (!chat || !me) return;
 
-    await apiClient.MessageService.createMessage({
+    apiClient.MessageService.createMessage({
       body: {
         chatId: chat.id,
         message,
         timestamp: new Date().getTime(),
         user: me.uid,
       },
-    });
-
-    await fetchChat();
+    }).then(() => fetchChat());
   };
 
   if (!chat) return null;
 
   return (
     <div className="flex size-full flex-col rounded-lg bg-slate-100">
-      <div className="flex-1 p-4">
+      <div className="flex w-full flex-1 flex-col overflow-auto p-4">
         {chat.messages.map((message) => (
           <InboxMessage
             key={message.id}
             message={message}
-            mine={me?.uid === message.senderId}
+            mine={me?.uid === message.sender}
           />
         ))}
       </div>
@@ -67,7 +69,12 @@ interface InboxMessageProps {
 
 const InboxMessage = ({message, mine}: InboxMessageProps) => {
   return (
-    <div className="mb-4 flex w-64 flex-col rounded-lg bg-white px-2 py-1">
+    <div
+      className={clsx(
+        "mb-4 flex w-64 flex-col rounded-lg bg-white px-2 py-1",
+        mine && "self-end"
+      )}
+    >
       <span
         className={clsx(
           "mb-2 text-xs font-semibold",
@@ -78,7 +85,10 @@ const InboxMessage = ({message, mine}: InboxMessageProps) => {
       </span>
       <span>{message.content}</span>
       <span className="text-right text-xs font-medium">
-        {new Date(message.timestamp).toLocaleDateString()}
+        {new Date(message.timestamp).toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        })}
       </span>
     </div>
   );
@@ -103,6 +113,7 @@ const InboxInput = ({onSend}: InboxInputProps) => {
       <input
         className="flex-1"
         onChange={(e) => setMessage(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && handleSend()}
         type="text"
         value={message}
       />
