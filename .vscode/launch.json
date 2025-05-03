@@ -1,0 +1,30 @@
+{
+  "version": "1.0.0",
+  "description": "Debugger configuration for the project",
+  "configurations": [
+    {
+      "name": "Fullstack App",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--inspect"
+      ],
+      "autoAttachChildProcesses": true,
+      "restart": true,
+      "sourceMaps": true,
+      "stopOnEntry": false,
+      "console": "integratedTerminal",
+      "serverReadyAction": {
+        "action": "debugWithChrome",
+        "killOnServerStop": true,
+        "pattern": "- Local:.+(https?://.+)",
+        "uriFormat": "%s",
+        "webRoot": "${workspaceFolder}"
+      }
+    }
+  ]
+}
