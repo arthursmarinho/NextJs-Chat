@@ -82,7 +82,7 @@ const InboxMessage = ({message, mine}: InboxMessageProps) => {
   return (
     <div
       className={clsx(
-        "mb-4 flex w-64 flex-col rounded-lg bg-white px-2 py-1",
+        "mb-4 flex w-auto min-w-64 max-w-[90%] flex-col rounded-lg bg-white px-2 py-1",
         mine && "self-end"
       )}
     >
