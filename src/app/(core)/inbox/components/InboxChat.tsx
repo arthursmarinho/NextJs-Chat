@@ -4,7 +4,7 @@ import {MessageModel} from "@/lib/shared/models/Message.model";
 import {useAuthentication} from "@/lib/ui/hooks/firebase/useAuthentication";
 import clsx from "clsx";
 import {useSearchParams} from "next/navigation";
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 
 export const InboxChat = () => {
   const searchParams = useSearchParams();
@@ -12,6 +12,7 @@ export const InboxChat = () => {
   const [chat, setChat] = useState<ChatModel>();
   const {getCurrentUser} = useAuthentication();
   const me = getCurrentUser();
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const fetchChat = useCallback(async () => {
     if (!userId) return;
@@ -31,6 +32,13 @@ export const InboxChat = () => {
     return () => clearInterval(intervalId);
   }, [userId]);
 
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  }, [chat?.messages]);
+
   const handleSendMessage = async (message: string) => {
     if (!chat || !me) return;
 
@@ -48,7 +56,10 @@ export const InboxChat = () => {
 
   return (
     <div className="flex size-full flex-col rounded-lg bg-slate-100">
-      <div className="flex w-full flex-1 flex-col overflow-auto p-4">
+      <div
+        className="flex w-full flex-1 flex-col overflow-auto p-4"
+        ref={chatContainerRef}
+      >
         {chat.messages.map((message) => (
           <InboxMessage
             key={message.id}
