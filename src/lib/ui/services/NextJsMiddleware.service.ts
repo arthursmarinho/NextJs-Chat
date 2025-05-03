@@ -18,7 +18,7 @@ export class NextJsMiddlewareService {
     if (nextUrl.pathname === "/auth/signin" || nextUrl.pathname === "/") {
       const url = nextUrl.clone();
 
-      url.pathname = "/dashboard";
+      url.pathname = "/";
 
       return NextResponse.redirect(url);
     }

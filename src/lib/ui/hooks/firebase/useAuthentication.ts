@@ -7,6 +7,7 @@ import {
   User,
 } from "firebase/auth";
 import Cookies from "js-cookie";
+import {redirect} from "next/navigation";
 import {useCallback, useMemo} from "react";
 
 import {useFirebase} from "./useFirebase";
@@ -27,6 +28,8 @@ export const useAuthentication = (): UseAuthenticationData => {
     const result = await signInWithPopup(auth, provider);
 
     Cookies.set("token", (await result.user.getIdToken()) ?? "");
+
+    redirect("/");
 
     return result.user;
   }, [auth]);

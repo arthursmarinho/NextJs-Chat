@@ -1,11 +1,6 @@
 import {configureStore} from "@reduxjs/toolkit";
 
-import accountsReducer from "./accountsSlice";
-import dashboardReducer from "./dashboardSlice";
 import firebaseReducer from "./firebaseSlice";
-import trackerReducer from "./trackerSlice";
-import transactionCategoriesReducer from "./transactionCategoriesSlice";
-import transactionsReducer from "./transactionsSlice";
 
 export const store = configureStore({
   devTools: process.env.NODE_ENV !== "production",
@@ -21,12 +16,7 @@ export const store = configureStore({
       },
     }),
   reducer: {
-    // accounts: accountsReducer,
-    // dashboard: dashboardReducer,
     firebase: firebaseReducer,
-    // tracker: trackerReducer,
-    // transactionCategories: transactionCategoriesReducer,
-    // transactions: transactionsReducer,
   },
 });
 
