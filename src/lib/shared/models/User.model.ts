@@ -1,5 +1,6 @@
-export class ChatModel {
-  id: string;
-  users: UserModel[];
-  messages: MessageModel[];
+export class UserModel {
+  socialId: string;
+  name: string;
+  email: string;
+  photo: string;
 }

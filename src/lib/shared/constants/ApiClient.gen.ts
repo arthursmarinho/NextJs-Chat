@@ -5,7 +5,7 @@ import {
   ApiServiceInit,
 } from "@/lib/shared/helpers/ApiClient.helper";
 
-import { CreateChatBodyDto } from "@/lib/shared/dtos/chat/CreateChatBody.dto";
+import { CreateChatBodyDto } from "@/lib/shared/dtos/message/CreateChatBody.dto";
 
 export const ChatService = {
   createChat: (args: ApiServiceInit<CreateChatBodyDto, undefined, undefined>) =>
