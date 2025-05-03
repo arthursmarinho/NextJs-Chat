@@ -1,9 +1,7 @@
 import { ConfigFirebaseAdminModel } from "@/lib/shared/models/ConfigFirebaseAdmin";
 import { firebaseAdmin } from "@/lib/shared/config/FirebaseAdmin.config";
 export class UserService {
-  static async getUserConfig(
-    userId: string
-  ): Promise<ConfigFirebaseAdminModel> {
+  static async getUser(userId: string): Promise<ConfigFirebaseAdminModel> {
     const userRecord = await firebaseAdmin.auth().getUser(userId);
 
     return {

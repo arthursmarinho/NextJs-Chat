@@ -6,7 +6,7 @@ import { CreateChatBodyDto } from "@/lib/shared/dtos/chat/CreateChatBodyDto";
 const db = firebaseAdmin.firestore();
 
 export class ChatService {
-  static async getChatConfig(userId: string): Promise<ChatModel[]> {
+  static async getChat(userId: string): Promise<ChatModel[]> {
     const snapshot = await db
       .collection("chat")
       .where("users", "array-contains", userId)

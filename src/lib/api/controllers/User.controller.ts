@@ -10,9 +10,9 @@ import { ConfigFirebaseAdminModel } from "@/lib/shared/models/ConfigFirebaseAdmi
 @Controller("/user")
 export class UserController {
   @Endpoint("GET", "/me")
-  static async getUserConfig(
+  static async getUser(
     @UserId() userId: string
   ): Promise<ConfigFirebaseAdminModel> {
-    return UserService.getUserConfig(userId);
+    return UserService.getUser(userId);
   }
 }

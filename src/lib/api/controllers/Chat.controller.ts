@@ -9,7 +9,7 @@ import { CreateChatBodyDto } from "@/lib/shared/dtos/chat/CreateChatBodyDto";
 export class ChatController {
   @Endpoint("GET", "/")
   static async getUserChats(@UserId() userId: string): Promise<ChatModel[]> {
-    return ChatService.getChatConfig(userId);
+    return ChatService.getChat(userId);
   }
   @Endpoint("POST", "/")
   static async createChat(

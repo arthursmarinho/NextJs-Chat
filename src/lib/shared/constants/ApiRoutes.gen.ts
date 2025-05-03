@@ -16,26 +16,26 @@ type RoutesByMethod = {
 };
 
 export const routesByMethod: RoutesByMethod = {
-    POST: [
-      {
-        handler: ChatController.createChat,
-        params: [],
-        regex: "^\/chat\/firebase$",
-        route: "/chat/firebase",
-      }
-    ],
-GET: [
-      {
-        handler: ConfigController.getFirebaseConfig,
-        params: [],
-        regex: "^\/config\/firebase$",
-        route: "/config/firebase",
-      },{
-        handler: UserController.getUserConfig,
-        params: [],
-        regex: "^\/user\/me$",
-        route: "/user/me",
-      }
-    ],
-
-  };
+  POST: [
+    {
+      handler: ChatController.createChat,
+      params: [],
+      regex: "^/chat/firebase$",
+      route: "/chat/firebase",
+    },
+  ],
+  GET: [
+    {
+      handler: ConfigController.getFirebaseConfig,
+      params: [],
+      regex: "^/config/firebase$",
+      route: "/config/firebase",
+    },
+    {
+      handler: UserController.getUser,
+      params: [],
+      regex: "^/user/me$",
+      route: "/user/me",
+    },
+  ],
+};
