@@ -3,7 +3,7 @@ import { UserModel } from "@/lib/shared/models/User.model";
 
 export class UserService {
   static async getAllUsers(): Promise<UserModel[]> {
-    const list = await firebaseAdmin.auth().listUsers(1000); // máximo permitido por chamada
+    const list = await firebaseAdmin.auth().listUsers(1000);
 
     return list.users.map((userRecord) => ({
       email: userRecord.email || "",
