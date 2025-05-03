@@ -13,6 +13,7 @@ export const InboxChat = () => {
   const {getCurrentUser} = useAuthentication();
   const me = getCurrentUser();
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const [lastMessageCount, setLastMessageCount] = useState<number>(0);
 
   const fetchChat = useCallback(async () => {
     if (!userId) return;
@@ -33,9 +34,13 @@ export const InboxChat = () => {
   }, [userId]);
 
   useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop =
-        chatContainerRef.current.scrollHeight;
+    if (chat?.messages.length !== lastMessageCount) {
+      setLastMessageCount(chat?.messages.length || 0);
+
+      if (chatContainerRef.current) {
+        chatContainerRef.current.scrollTop =
+          chatContainerRef.current.scrollHeight;
+      }
     }
   }, [chat?.messages]);
 
