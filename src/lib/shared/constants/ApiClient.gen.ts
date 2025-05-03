@@ -27,7 +27,7 @@ getChatWithUser: (args: ApiServiceInit<undefined, undefined, IdDto>) => apiClien
         IdDto
         
         >(
-          "/api/chat/me/:userId",
+          "/api/chat/me/:id",
           "POST",
           args
         ),

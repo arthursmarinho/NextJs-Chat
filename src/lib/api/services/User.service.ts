@@ -1,5 +1,5 @@
-import { firebaseAdmin } from "@/lib/shared/config/FirebaseAdmin.config";
-import { UserModel } from "@/lib/shared/models/User.model";
+import {firebaseAdmin} from "@/lib/shared/config/FirebaseAdmin.config";
+import {UserModel} from "@/lib/shared/models/User.model";
 
 export class UserService {
   static async getAllUsers(): Promise<UserModel[]> {
@@ -7,9 +7,9 @@ export class UserService {
 
     return list.users.map((userRecord) => ({
       email: userRecord.email || "",
+      id: userRecord.uid,
       name: userRecord.displayName || "",
       photoUrl: userRecord.photoURL || "",
-      socialId: "",
     }));
   }
   static async getMe(userId: string): Promise<UserModel> {
@@ -17,9 +17,9 @@ export class UserService {
 
     return {
       email: userRecord.email || "",
+      id: userRecord.uid,
       name: userRecord.displayName || "",
       photoUrl: userRecord.photoURL || "",
-      socialId: "",
     };
   }
 }

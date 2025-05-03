@@ -26,9 +26,9 @@ export const routesByMethod: RoutesByMethod = {
         route: "/chat/",
       },{
         handler: ChatController.getChatWithUser,
-        params: ["userId"],
+        params: ["id"],
         regex: "^\/chat\/me\/([^\/]+)$",
-        route: "/chat/me/:userId",
+        route: "/chat/me/:id",
       },{
         handler: MessageController.createMessage,
         params: [],

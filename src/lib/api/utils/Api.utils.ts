@@ -38,18 +38,18 @@ const handleMethod = (handler: Function) => {
     try {
       return await handler(req, context);
     } catch (error) {
-      if (NodeConfig.isDevEnv()) {
-        console.error({
-          error: (error as {message: string} | undefined)?.message || "",
-          message: "Error during endpoint execution",
-          req: {
-            body: req.body,
-            headers: req.headers,
-            method: req.method,
-            url: req.url,
-          },
-        });
-      }
+      // if (NodeConfig.isDevEnv()) {
+      //   console.debug({
+      //     error: (error as {message: string} | undefined)?.message || "",
+      //     message: "Error during endpoint execution",
+      //     req: {
+      //       body: req.body,
+      //       headers: req.headers,
+      //       method: req.method,
+      //       url: req.url,
+      //     },
+      //   });
+      // }
 
       return handleError(req, context, error as ApiError);
     }
