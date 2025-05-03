@@ -8,7 +8,7 @@ const db = firebaseAdmin.firestore();
 export class ChatService {
   static async getChatConfig(userId: string): Promise<ChatModel[]> {
     const snapshot = await db
-      .collection("chats")
+      .collection("chat")
       .where("users", "array-contains", userId)
       .get();
 
@@ -33,7 +33,7 @@ export class ChatService {
       createdAt: new Date().toISOString(),
     };
 
-    const docRef = await db.collection("chats").add(chatData);
+    const docRef = await db.collection("chat").add(chatData);
 
     return {
       id: docRef.id,
