@@ -32,16 +32,16 @@ export const routesByMethod: RoutesByMethod = {
       },{
         handler: MessageController.createMessage,
         params: [],
-        regex: "^\/chat$",
-        route: "/chat/",
+        regex: "^\/messages$",
+        route: "/messages/",
       }
     ],
 GET: [
       {
         handler: ChatController.getUserChats,
         params: [],
-        regex: "^\/chat$",
-        route: "/chat/",
+        regex: "^\/chat\/me$",
+        route: "/chat/me",
       },{
         handler: ConfigController.getFirebaseConfig,
         params: [],

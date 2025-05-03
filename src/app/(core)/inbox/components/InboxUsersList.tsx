@@ -30,11 +30,7 @@ export const InboxUsersList = () => {
   const handleConversationClick = async (userId: string) => {
     const params = new URLSearchParams(searchParams.toString());
 
-    await apiClient.ChatService.getChatWithUser({
-      params: {id: userId},
-    });
-
-    params.set("chatId", userId);
+    params.set("withUserId", userId);
     router.push(`?${params.toString()}`);
   };
 

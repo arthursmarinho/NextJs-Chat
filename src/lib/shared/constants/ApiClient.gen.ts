@@ -34,7 +34,7 @@ getChatWithUser: (args: ApiServiceInit<undefined, undefined, IdDto>) => apiClien
 getUserChats: () => apiClientHelper<
         typeof ChatService.getUserChats
         >(
-          "/api/chat/",
+          "/api/chat/me",
           "GET",
           
         )
@@ -56,7 +56,7 @@ createMessage: (args: ApiServiceInit<CreateMessageBodyDto, undefined, undefined>
         undefined
         
         >(
-          "/api/chat/",
+          "/api/messages/",
           "POST",
           args
         )

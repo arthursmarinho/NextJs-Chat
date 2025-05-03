@@ -22,7 +22,37 @@ export class ChatService {
     };
   }
 
-  static async getChat(userId: string): Promise<ChatModel[]> {
+  static async getChatWithUser(
+    myId: string,
+    userId: string
+  ): Promise<ChatModel> {
+    const snapshot = await db
+      .collection("chat")
+      .where("users", "array-contains", myId)
+      .get();
+
+    const chatDoc = snapshot.docs.find((doc) => {
+      const data = doc.data();
+
+      return data.users.includes(userId);
+    });
+
+    if (!chatDoc) {
+      return await this.createChat({
+        users: [myId, userId],
+      });
+    }
+
+    const data = chatDoc.data();
+
+    return {
+      id: chatDoc.id,
+      messages: data.messages || [],
+      users: data.users,
+    };
+  }
+
+  static async getUserChats(userId: string): Promise<ChatModel[]> {
     const snapshot = await db
       .collection("chat")
       .where("users", "array-contains", userId)
@@ -41,30 +71,5 @@ export class ChatService {
     });
 
     return chats;
-  }
-
-  static async getChatWithUser(
-    myId: string,
-    userId: string
-  ): Promise<ChatModel> {
-    const snapshot = await db
-      .collection("chat")
-      .where("users", "array-contains", [myId, userId])
-      .get();
-
-    if (snapshot.empty) {
-      return await this.createChat({
-        users: [myId, userId],
-      });
-    }
-
-    const chatDoc = snapshot.docs[0];
-    const data = chatDoc.data();
-
-    return {
-      id: chatDoc.id,
-      messages: data.messages || [],
-      users: data.users,
-    };
   }
 }
