@@ -21,7 +21,16 @@ export const useFirebase = (): UseFirebaseData => {
   const shouldFetchFirebaseConfig =
     !app &&
     typeof window !== "undefined" &&
-    !localStorage.getItem("firebase.config");
+    (() => {
+      const cachedConfig = localStorage.getItem("firebase.config");
+      try {
+        const parsedConfig = cachedConfig ? JSON.parse(cachedConfig) : null;
+
+        return !parsedConfig || !parsedConfig.apiKey;
+      } catch {
+        return true;
+      }
+    })();
 
   const getFirebaseConfigQuery = useQuery({
     enabled: shouldFetchFirebaseConfig,
@@ -42,7 +51,7 @@ export const useFirebase = (): UseFirebaseData => {
         : null;
 
     const data = cached ? JSON.parse(cached) : getFirebaseConfigQuery.data;
-    if (!data) return;
+    if (!data || !data.apiKey) return;
 
     dispatch(
       initializeFirebaseApp({
@@ -55,8 +64,6 @@ export const useFirebase = (): UseFirebaseData => {
       })
     );
   }, [getFirebaseConfigQuery.data]);
-
-  console.log("useFirebase", shouldFetchFirebaseConfig);
 
   return useMemo(
     () => ({auth, firestore, storage}),

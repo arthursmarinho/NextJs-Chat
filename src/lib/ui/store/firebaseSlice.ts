@@ -26,9 +26,6 @@ const firebaseSlice = createSlice({
       action: {payload: Plain<ConfigFirebaseModel>}
     ) {
       state.app = initializeApp(action.payload);
-
-      if (!state.app) return;
-
       state.auth = getAuth(state.app);
       state.firestore = getFirestore(state.app);
       state.storage = getStorage(state.app);

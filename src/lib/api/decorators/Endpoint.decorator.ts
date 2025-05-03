@@ -119,8 +119,9 @@ export const Endpoint = (
           return NextResponse.json({error: "Unauthorized"}, {status: 401});
         }
 
-        // const userId = isPrivate ? AuthService.extractUserId(token) : null;
-        const userId = await AuthService.extractUserIdFromSsoToken(token);
+        const userId = isPrivate
+          ? AuthService.extractUserIdFromSsoToken(token)
+          : null;
 
         if (options?.roles && userId) {
           const userRoles: string[] = [];

@@ -3,8 +3,8 @@
 import { apiClientHelper, ApiServiceInit } from "@/lib/ui/services/ApiClient.helper";
 
 
-import { CreateMessageBodyDto } from "@/lib/shared/dtos/message/CreateMessageBodyDto";
 import { CreateChatBodyDto } from "@/lib/shared/dtos/chat/CreateChatBodyDto";
+import { CreateMessageBodyDto } from "@/lib/shared/dtos/message/CreateMessageBodyDto";
 
 
 export const ChatService = {

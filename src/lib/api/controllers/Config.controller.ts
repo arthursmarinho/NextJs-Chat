@@ -8,7 +8,9 @@ import {Endpoint} from "../decorators/Endpoint.decorator";
 
 @Controller("/config")
 export class ConfigController {
-  @Endpoint("GET", "/firebase")
+  @Endpoint("GET", "/firebase", {
+    private: false,
+  })
   static async getFirebaseConfig(): Promise<ConfigFirebaseModel> {
     return FirebaseConfig;
   }
