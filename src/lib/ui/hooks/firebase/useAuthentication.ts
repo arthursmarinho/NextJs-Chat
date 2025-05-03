@@ -6,6 +6,7 @@ import {
   signInWithPopup,
   User,
 } from "firebase/auth";
+import Cookies from "js-cookie";
 import {useCallback, useMemo} from "react";
 
 import {useFirebase} from "./useFirebase";
@@ -24,6 +25,8 @@ export const useAuthentication = (): UseAuthenticationData => {
 
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider);
+
+    Cookies.set("token", (await result.user.getIdToken()) ?? "");
 
     return result.user;
   }, [auth]);

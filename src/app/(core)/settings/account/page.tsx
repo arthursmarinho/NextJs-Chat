@@ -8,8 +8,6 @@ const SettingsPage = () => {
   const {getCurrentUser} = useAuthentication();
   // const user = getCurrentUser();
 
-  console.log("SettingsPage");
-
   return (
     <>
       <CorePageHeader

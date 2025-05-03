@@ -5,17 +5,11 @@ import {
   DecoratorsUtils,
 } from "../utils/Decorators.utils";
 
-export type ArgDecoratorName =
-  | "body"
-  | "cookies"
-  | "pagination"
-  | "params"
-  | "query"
-  | "req"
-  | "userId";
-
 export const Req = (options?: never): ParameterDecorator =>
   DecoratorsUtils.createArgumentDecorator("req", options);
+
+export const Res = (options?: never): ParameterDecorator =>
+  DecoratorsUtils.createArgumentDecorator("res", options);
 
 export const Body = (
   options?: CreateArgumentDecoratorOptions

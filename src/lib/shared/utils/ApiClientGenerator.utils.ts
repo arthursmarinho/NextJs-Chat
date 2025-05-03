@@ -56,7 +56,7 @@ const generateApiClient = async () => {
     path.resolve("src/lib/shared/constants/ApiClient.gen.ts")
   );
 
-  moduleWrite.pushImport("@/lib/shared/helpers/ApiClient.helper", [
+  moduleWrite.pushImport("@/lib/ui/services/ApiClient.helper", [
     "apiClientHelper",
     "ApiServiceInit",
   ]);

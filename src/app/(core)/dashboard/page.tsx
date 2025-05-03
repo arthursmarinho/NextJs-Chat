@@ -1,6 +1,6 @@
-import Image from "next/image";
+"use client";
 
-const DashboardPage = async () => {
+const DashboardPage = () => {
   return <span>Dashboard</span>;
 };
 

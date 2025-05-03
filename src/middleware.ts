@@ -5,5 +5,5 @@ import {NextJsMiddlewareService} from "@/lib/ui/services/NextJsMiddleware.servic
 export const middleware = NextJsMiddlewareService.handle;
 
 export const config = {
-  matcher: ["/((?!api|_next/static||favicon.ico|sitemap.xml|robots.txt).*)"],
+  matcher: ["/((?!api|_next/static|favicon.ico|sitemap.xml|robots.txt).*)"],
 };

@@ -1,7 +1,10 @@
-import {ApiAuthException} from "@/lib/shared/exceptions/ApiAuth.exception";
+// import {ApiAuthException} from "@/lib/shared/exceptions/ApiAuth.exception";
 import {User} from "@prisma/client";
 import jwt from "jsonwebtoken";
 import {omit} from "lodash";
+import {ApiError} from "next/dist/server/api-utils";
+
+import {admin} from "../firebase";
 
 export class AuthService {
   static createPayload(user: Partial<User>): Record<string, unknown> {
@@ -9,11 +12,19 @@ export class AuthService {
   }
 
   static extractUserId(token?: string): number {
-    if (!token) throw new ApiAuthException("No token provided");
+    if (!token) throw new ApiError(401, "No token provided");
 
     const payload = jwt.verify(token, "");
 
     return Number(payload.sub as string);
+  }
+
+  static async extractUserIdFromSsoToken(token?: string): Promise<string> {
+    if (!token) throw new ApiError(401, "No token provided");
+
+    const payload = await admin.auth().verifyIdToken(token);
+
+    return payload.sub;
   }
 
   static generateRefreshToken(user: Partial<User>): string {
@@ -26,6 +37,11 @@ export class AuthService {
     const payload = AuthService.createPayload(user);
 
     return jwt.sign(payload, "");
+  }
+
+  static signInWithSso(token: string): undefined {
+    // TODO: Implement SSO sign-in logic
+    return;
   }
 
   static verifyRefreshToken(token?: string): boolean {

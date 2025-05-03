@@ -1,13 +1,15 @@
-import { ConfigFirebaseAdminModel } from "@/lib/shared/models/ConfigFirebaseAdmin";
-import { firebaseAdmin } from "@/lib/shared/config/FirebaseAdmin.config";
+import {firebaseAdmin} from "@/lib/shared/config/FirebaseAdmin.config";
+import {UserModel} from "@/lib/shared/models/User.model";
+
 export class UserService {
-  static async getUser(userId: string): Promise<ConfigFirebaseAdminModel> {
+  static async getUser(userId: string): Promise<UserModel> {
     const userRecord = await firebaseAdmin.auth().getUser(userId);
 
     return {
-      name: userRecord.displayName || "",
       email: userRecord.email || "",
-      photoURL: userRecord.photoURL || "",
+      name: userRecord.displayName || "",
+      photoUrl: userRecord.photoURL || "",
+      socialId: "",
     };
   }
 }

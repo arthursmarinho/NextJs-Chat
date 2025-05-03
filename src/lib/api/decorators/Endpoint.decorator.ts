@@ -1,4 +1,5 @@
-import { ApiPaginationParamsDto } from "@/lib/shared/dtos/api/ApiPaginationParams.dto";
+import {UserService} from "@/lib/shared/constants/ApiClient.gen";
+import {ApiPaginationParamsDto} from "@/lib/shared/dtos/api/ApiPaginationParams.dto";
 import {
   ApiEndpointDataType,
   ApiResponse,
@@ -6,17 +7,18 @@ import {
 } from "@/lib/shared/types/Api.types";
 import _ from "lodash";
 import ms from "ms";
-import { ApiError } from "next/dist/server/api-utils";
-import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
-import { performance } from "perf_hooks";
+import {ApiError} from "next/dist/server/api-utils";
+import {cookies} from "next/headers";
+import {NextRequest, NextResponse} from "next/server";
+import {performance} from "perf_hooks";
 
-import { RequestContextManager } from "../helpers/RequestContextManager";
-import { ErrorWithMessage } from "../types/Error.types";
-import { ApiUtils } from "../utils/Api.utils";
-import { DecoratorsUtils } from "../utils/Decorators.utils";
-import { ArgDecoratorName } from "./Args";
-import { ControllerDecoratorOptions } from "./Controller.decorator";
+import {RequestContextManager} from "../helpers/RequestContextManager";
+import {AuthService} from "../services/Auth.service";
+import {ErrorWithMessage} from "../types/Error.types";
+import {ApiUtils} from "../utils/Api.utils";
+import {DecoratorsUtils} from "../utils/Decorators.utils";
+import {ArgDecoratorName} from "./Args";
+import {ControllerDecoratorOptions} from "./Controller.decorator";
 
 interface CacheOptions {
   maxLife?: number;
@@ -89,12 +91,13 @@ export const Endpoint = (
       descriptor.value = async (
         ...originalArgs: [
           NextRequest,
-          { params: Promise<Record<string, string>> }
+          {params: Promise<Record<string, string>>}
         ]
       ) => {
         const startTime = performance.now();
 
         const req = originalArgs[0] as unknown as NextRequest;
+        const nextResponse = NextResponse.json({}, {status: 200});
         const context: Record<string, string> = await originalArgs[1]?.params;
         const controllerOptions: ControllerDecoratorOptions =
           DecoratorsUtils.getMetadata("controller", target, "controller");
@@ -104,23 +107,20 @@ export const Endpoint = (
           req.headers.get("Authorization")?.split(" ")[1];
         const queryParams = ApiUtils.parseQueryParams(req.nextUrl.searchParams);
         const params = context || {};
-        const { cache, isPrivate } = validateOptions(
-          options,
-          controllerOptions
-        );
+        const {cache, isPrivate} = validateOptions(options, controllerOptions);
 
-        // if (isPrivate && !token) {
-        //   console.warn({
-        //     endpoint: propertyKey,
-        //     message: "Unauthorized access attempt",
-        //     url: req.nextUrl.pathname,
-        //   });
+        if (isPrivate && !token) {
+          console.warn({
+            endpoint: propertyKey,
+            message: "Unauthorized access attempt",
+            url: req.nextUrl.pathname,
+          });
 
-        //   return NextResponse.json({error: "Unauthorized"}, {status: 401});
-        // }
+          return NextResponse.json({error: "Unauthorized"}, {status: 401});
+        }
 
         // const userId = isPrivate ? AuthService.extractUserId(token) : null;
-        const userId = "pGoJoFWZzjRc0s7dTSmmm0QM8Sp2";
+        const userId = await AuthService.extractUserIdFromSsoToken(token);
 
         if (options?.roles && userId) {
           const userRoles: string[] = [];
@@ -138,7 +138,7 @@ export const Endpoint = (
               userRoles,
             });
 
-            return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+            return NextResponse.json({error: "Forbidden"}, {status: 403});
           }
         }
 
@@ -163,6 +163,7 @@ export const Endpoint = (
           params: () => params,
           query: () => queryParams,
           req: () => req,
+          res: () => nextResponse,
           userId: async () => userId,
         };
 
@@ -197,11 +198,10 @@ export const Endpoint = (
         );
 
         let result: ApiEndpointDataType = null;
-        const nextResponse = NextResponse.json({}, { status: 200 });
         let controllerExecutionDuration: number = 0;
 
         try {
-          await RequestContextManager.run({ userId }, async () => {
+          await RequestContextManager.run({userId}, async () => {
             const controllerExecutionStartTime = performance.now();
 
             result = await next(args);
@@ -280,7 +280,7 @@ export const Endpoint = (
 const validateOptions = (
   options: EndpointDecoratorOptions | undefined,
   controllerOptions: ControllerDecoratorOptions
-): { cache?: CacheOptions; isPrivate: boolean } => {
+): {cache?: CacheOptions; isPrivate: boolean} => {
   let isPrivate: boolean = true;
   if (options?.private !== undefined) isPrivate = options.private;
   else if (controllerOptions?.private !== undefined)

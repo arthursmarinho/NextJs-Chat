@@ -7,6 +7,7 @@ export type ArgDecoratorName =
   | "params"
   | "query"
   | "req"
+  | "res"
   | "userId";
 
 export type ArgumentDecorator = ReturnType<

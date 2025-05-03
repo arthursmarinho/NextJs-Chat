@@ -1,8 +1,5 @@
-import {
-  ApiEndpointDataType,
-  ApiResponse,
-  HttpMethod,
-} from "@/lib/shared/types/Api.types";
+import {ApiResponse, HttpMethod} from "@/lib/shared/types/Api.types";
+import Cookies from "js-cookie";
 
 export interface ApiServiceInit<
   TBody extends object | undefined = undefined,
@@ -24,6 +21,8 @@ export const apiClientHelper = async <
   method: HttpMethod,
   init?: ApiServiceInit<TBody, TQueryParams, TParams>
 ): Promise<ApiResponse<TResponse>> => {
+  const token = Cookies.get("token");
+
   if (init?.params) {
     url = url.replace(/:([a-zA-Z0-9_]+)/g, (_, key: keyof TParams) => {
       if (key in init.params!) {
@@ -43,6 +42,13 @@ export const apiClientHelper = async <
   const response = await fetch(url, {
     ...init,
     body: init?.body ? JSON.stringify(init?.body) : undefined,
+    headers: Object.fromEntries(
+      Object.entries({
+        ...init?.headers,
+        Authorization: token ? `Bearer ${token}` : undefined,
+        "Content-Type": "application/json",
+      }).filter(([_, value]) => value !== undefined)
+    ),
     method,
   });
 

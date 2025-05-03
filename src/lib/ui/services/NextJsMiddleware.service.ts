@@ -5,8 +5,6 @@ export class NextJsMiddlewareService {
     const token = request.cookies.get("token");
     const nextUrl = request.nextUrl;
 
-    return NextResponse.next();
-
     if (!token) {
       if (nextUrl.pathname === "/auth/signin") return NextResponse.next();
 

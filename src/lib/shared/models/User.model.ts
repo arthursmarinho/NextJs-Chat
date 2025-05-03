@@ -1,6 +1,6 @@
 export class UserModel {
-  socialId: string;
-  name: string;
   email: string;
-  photo: string;
+  name: string;
+  photoUrl: string;
+  socialId: string;
 }

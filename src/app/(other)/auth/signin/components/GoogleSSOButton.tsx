@@ -12,13 +12,7 @@ const GoogleSSOButtonClient = (): JSX.Element => {
   const {signInWithGoogle} = useAuthentication();
 
   const handleClick = async (): Promise<void> => {
-    const user = await signInWithGoogle();
-
-    if (user) {
-      console.log("User signed in:", user);
-    } else {
-      console.error("Sign-in failed");
-    }
+    await signInWithGoogle();
   };
 
   return (
