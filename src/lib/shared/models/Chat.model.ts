@@ -1,7 +1,5 @@
-import { MessageModel } from "./Message.model";
-
-export class ChatModel {
+export interface ChatModel {
   id: string;
-  messages: MessageModel[];
-  users: UserModel[];
+  messages: string[];
+  users: string[];
 }

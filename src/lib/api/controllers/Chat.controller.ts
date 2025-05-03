@@ -1,19 +1,20 @@
-import { FirebaseConfig } from "@/lib/shared/config/Firebase.config";
-import { ConfigFirebaseModel } from "@/lib/shared/models/ConfigFirebase.model";
-
 import { Controller } from "../decorators/Controller.decorator";
 import { Endpoint } from "../decorators/Endpoint.decorator";
-import { Body, Params, Query } from "../decorators/Args";
-import { IdDto } from "@/lib/shared/dtos/Id.dto";
-import { CreateChatBodyDto } from "@/lib/shared/dtos/message/CreateChatBody.dto";
+import { ChatService } from "../services/Chat.service";
 import { ChatModel } from "@/lib/shared/models/Chat.model";
+import { Body, UserId } from "../decorators/Args";
+import { CreateChatBodyDto } from "@/lib/shared/dtos/chat/CreateChatBodyDto";
 
 @Controller("/chat")
 export class ChatController {
-  @Endpoint("POST", "/firebase")
+  @Endpoint("GET", "/")
+  static async getUserChats(@UserId() userId: string): Promise<ChatModel[]> {
+    return ChatService.getChatConfig(userId);
+  }
+  @Endpoint("POST", "/")
   static async createChat(
     @Body({ schema: CreateChatBodyDto }) dto: CreateChatBodyDto
   ): Promise<ChatModel> {
-    return;
+    return ChatService.createChat(dto);
   }
 }
