@@ -18,7 +18,25 @@ type RoutesByMethod = {
 };
 
 export const routesByMethod: RoutesByMethod = {
-    GET: [
+    POST: [
+      {
+        handler: ChatController.createChat,
+        params: [],
+        regex: "^\/chat$",
+        route: "/chat/",
+      },{
+        handler: ChatController.getChatWithUser,
+        params: ["userId"],
+        regex: "^\/chat\/me\/([^\/]+)$",
+        route: "/chat/me/:userId",
+      },{
+        handler: MessageController.createMessage,
+        params: [],
+        regex: "^\/chat$",
+        route: "/chat/",
+      }
+    ],
+GET: [
       {
         handler: ChatController.getUserChats,
         params: [],
@@ -39,19 +57,6 @@ export const routesByMethod: RoutesByMethod = {
         params: [],
         regex: "^\/users\/me$",
         route: "/users/me",
-      }
-    ],
-POST: [
-      {
-        handler: ChatController.createChat,
-        params: [],
-        regex: "^\/chat$",
-        route: "/chat/",
-      },{
-        handler: MessageController.createMessage,
-        params: [],
-        regex: "^\/chat$",
-        route: "/chat/",
       }
     ],
 

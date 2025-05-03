@@ -41,4 +41,30 @@ export class ChatService {
       messages: [],
     };
   }
+
+  static async getChatWithUser(
+    myId: string,
+    userId: string
+  ): Promise<ChatModel> {
+    const snapshot = await db
+      .collection("chat")
+      .where("users", "array-contains", myId)
+      .where("users", "array-contains", userId)
+      .get();
+
+    if (snapshot.empty) {
+      return await this.createChat({
+        users: [myId, userId],
+      });
+    }
+
+    const chatDoc = snapshot.docs[0];
+    const data = chatDoc.data();
+
+    return {
+      id: chatDoc.id,
+      messages: data.messages || [],
+      users: data.users,
+    };
+  }
 }

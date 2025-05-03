@@ -1,8 +1,8 @@
 import "reflect-metadata";
 import _ from "lodash";
 
-import {ArgDecoratorName} from "../types/Decorator.types";
-import {ValidationUtils} from "./Validation.utils";
+import { ArgDecoratorName } from "../types/Decorator.types";
+import { ValidationUtils } from "./Validation.utils";
 
 export interface CreateArgumentDecoratorOptions {
   schema: object;

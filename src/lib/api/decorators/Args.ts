@@ -1,4 +1,4 @@
-import {ApiPaginationParamsDto} from "@/lib/shared/dtos/api/ApiPaginationParams.dto";
+import { ApiPaginationParamsDto } from "@/lib/shared/dtos/api/ApiPaginationParams.dto";
 
 import {
   CreateArgumentDecoratorOptions,

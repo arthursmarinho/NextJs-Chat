@@ -3,18 +3,12 @@
 import { apiClientHelper, ApiServiceInit } from "@/lib/ui/services/ApiClient.helper";
 
 
-import { CreateMessageBodyDto } from "@/lib/shared/dtos/message/CreateMessageBodyDto";
+import { IdDto } from "@/lib/shared/dtos/Id.dto";
 import { CreateChatBodyDto } from "@/lib/shared/dtos/chat/CreateChatBodyDto";
+import { CreateMessageBodyDto } from "@/lib/shared/dtos/message/CreateMessageBodyDto";
 
 
 export const ChatService = {
-getUserChats: () => apiClientHelper<
-        typeof ChatService.getUserChats
-        >(
-          "/api/chat/",
-          "GET",
-          
-        ),
 createChat: (args: ApiServiceInit<CreateChatBodyDto, undefined, undefined>) => apiClientHelper<
         typeof ChatService.createChat, 
         CreateChatBodyDto, 
@@ -25,6 +19,24 @@ createChat: (args: ApiServiceInit<CreateChatBodyDto, undefined, undefined>) => a
           "/api/chat/",
           "POST",
           args
+        ),
+getChatWithUser: (args: ApiServiceInit<undefined, undefined, IdDto>) => apiClientHelper<
+        typeof ChatService.getChatWithUser, 
+        undefined, 
+        undefined, 
+        IdDto
+        
+        >(
+          "/api/chat/me/:userId",
+          "POST",
+          args
+        ),
+getUserChats: () => apiClientHelper<
+        typeof ChatService.getUserChats
+        >(
+          "/api/chat/",
+          "GET",
+          
         )
     }
 export const ConfigService = {
