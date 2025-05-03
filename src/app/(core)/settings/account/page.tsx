@@ -1,5 +1,6 @@
 "use client";
 import {useAuthentication} from "@/lib/ui/hooks/firebase/useAuthentication";
+
 import {CorePageHeader} from "../../components/CorePageHeader";
 import {CorePageSection} from "../../components/CorePageSection";
 
@@ -12,8 +13,8 @@ const SettingsPage = () => {
   return (
     <>
       <CorePageHeader
-        title="Configurações de conta"
         description="Gerencie suas configurações de conta, notificações, cadastros e preferências"
+        title="Configurações de conta"
       />
       <CorePageSection></CorePageSection>
     </>

@@ -188,9 +188,9 @@ export const DecoratorsUtils = {
   createClassDecorator,
   createMethodDecorator,
   defineMetadata,
+  getArgumentSchema,
   getMetadata,
   getMetadataKeys,
   registerMetadataKey,
   resolveArgumentDecorator,
-  getArgumentSchema,
 };

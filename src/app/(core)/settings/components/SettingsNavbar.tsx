@@ -1,5 +1,5 @@
+import {Divider} from "@/lib/ui/components/Divider";
 import clsx from "clsx";
-import Link from "next/link";
 import {
   BadgeHelp,
   BadgeInfo,
@@ -19,75 +19,75 @@ import {
   SparklesIcon,
   UserIcon,
 } from "lucide-react";
-import {Divider} from "@/lib/ui/components/Divider";
+import Link from "next/link";
 
 type NavbarItemCategories = {
-  label: string;
   items: NavbarItemProps[];
+  label: string;
 };
 
 const navbarItems: NavbarItemCategories[] = [
   {
-    label: "Geral",
     items: [
       {
+        href: "/settings/account",
         icon: UserIcon,
         label: "Perfil",
-        href: "/settings/account",
       },
       {
-        icon: MailsIcon,
-        label: "Convites",
         href: "/settings/referrals",
+        icon: MailsIcon,
         isDisabled: true,
+        label: "Convites",
       },
       {
-        icon: PaletteIcon,
-        label: "Visual e acessibilidade",
         href: "/settings/visual-accessibility",
+        icon: PaletteIcon,
         isDisabled: true,
+        label: "Visual e acessibilidade",
       },
       {
-        icon: LockIcon,
-        label: "Privacidade e segurança",
         href: "/settings/privacy",
+        icon: LockIcon,
         isDisabled: true,
+        label: "Privacidade e segurança",
       },
     ],
+    label: "Geral",
   },
   {
-    label: "Cadastros",
     items: [
       {
-        icon: LandmarkIcon,
-        label: "Contas bancárias e cartões",
         href: "/settings/register/accounts",
+        icon: LandmarkIcon,
         isDisabled: true,
+        label: "Contas bancárias e cartões",
       },
       {
-        icon: FoldersIcon,
-        label: "Categorias",
         href: "/settings/register/categories",
+        icon: FoldersIcon,
         isDisabled: true,
+        label: "Categorias",
       },
     ],
+    label: "Cadastros",
   },
   {
-    label: "Integrações",
     items: [
       {
-        icon: MessageCircleIcon,
-        label: "Whatsapp e Telegram",
         href: "/settings/integrations/whatsapp-telegram",
+        icon: MessageCircleIcon,
         isDisabled: true,
+        label: "Whatsapp e Telegram",
       },
       {
-        icon: SparklesIcon,
-        label: "Assistente IA",
         href: "/settings/integrations/ai-assistant",
+        icon: SparklesIcon,
         isDisabled: true,
+        label: "Assistente IA",
       },
     ],
+    label: "Integrações",
   },
 ];
 
@@ -96,10 +96,10 @@ export const SettingsNavbar = () => {
     <>
       {categories.map((category: NavbarItemCategories) => (
         <div
-          className="mb-2 pb-2 border-b border-gray-200 last:border-b-0"
+          className="mb-2 border-b border-gray-200 pb-2 last:border-b-0"
           key={category.label}
         >
-          <span className="px-3 text-black/70 text-xs font-medium pb-2">
+          <span className="px-3 pb-2 text-xs font-medium text-black/70">
             {category.label}
           </span>
           <ul>
@@ -113,8 +113,8 @@ export const SettingsNavbar = () => {
   );
 
   return (
-    <nav className="w-60 flex flex-col">
-      <div className="p-2 flex flex-col justify-between flex-1">
+    <nav className="flex w-60 flex-col">
+      <div className="flex flex-1 flex-col justify-between p-2">
         <section>{renderNavbarItems(navbarItems)}</section>
       </div>
     </nav>
@@ -122,26 +122,26 @@ export const SettingsNavbar = () => {
 };
 
 interface NavbarItemProps {
-  icon: React.FC<LucideProps>;
-  label: string;
   href: string;
+  icon: React.FC<LucideProps>;
   isActive?: boolean;
   isDisabled?: boolean;
+  label: string;
 }
 
 const NavbarItem = ({
-  icon: Icon,
-  label,
   href,
+  icon: Icon,
   isActive = false,
   isDisabled = false,
+  label,
 }: NavbarItemProps) => (
   <Link href={isDisabled ? "#" : href}>
     <li
       className={clsx(
-        "flex mt-1 items-center gap-2 rounded-md px-3 py-1 text-sm font text-black/80 hover:bg-gray-100",
+        "font mt-1 flex items-center gap-2 rounded-md px-3 py-1 text-sm text-black/80 hover:bg-gray-100",
         isActive && "bg-gray-100",
-        isDisabled && "text-gray-900/60 cursor-not-allowed"
+        isDisabled && "cursor-not-allowed text-gray-900/60"
       )}
     >
       <Icon className="size-3" />

@@ -1,6 +1,7 @@
 // AUTO-GENERATED FILE - DO NOT EDIT
 import { ConfigController } from "@/lib/api/controllers/Config.controller";
 import { ConfigFirebaseModel } from "@/lib/shared/models/ConfigFirebase.model";
+
 export const configcontroller = {
   getFirebaseConfig: {
     method: ConfigController.getFirebaseConfig,

@@ -1,20 +1,27 @@
 import "reflect-metadata";
 import {EndpointMetadata} from "@/lib/api/decorators/Endpoint.decorator";
 import path from "path";
+
 import {ModuleLoader} from "../helpers/ModuleLoader.helper";
 import {ModuleWrite} from "../helpers/ModuleWrite.helper";
 import {DynamicApiRoutesGenerator} from "./DynamicApiRoutesGenerator.utils";
 
 const generateApiClient = async () => {
   const controllersLoader = new ModuleLoader("controller");
+
   await controllersLoader.loadExports();
+
   const controllersMap = controllersLoader.map;
   const controllers = controllersLoader.exports;
   const dtosLoader = new ModuleLoader("dto");
+
   await dtosLoader.loadExports();
+
   const dtosMap = dtosLoader.map;
   const modelsLoader = new ModuleLoader("model");
+
   await modelsLoader.loadExports();
+
   const modelsMap = modelsLoader.map;
 
   const registry = DynamicApiRoutesGenerator.getEndpointsRegistry(controllers);
@@ -22,11 +29,12 @@ const generateApiClient = async () => {
 
   const routesByControllerMap = new Map<
     string,
-    (EndpointMetadata & {endpointMethod: string})[]
+    ({endpointMethod: string} & EndpointMetadata)[]
   >();
   for (const route of registry) {
     const {controller, method, options: metadata} = route;
     const key = controller.replace("Controller", "Service");
+
     targetImports.add(key);
     Object.values(metadata.schemas).forEach((schema) => {
       if (schema) targetImports.add(schema.name);
@@ -35,7 +43,9 @@ const generateApiClient = async () => {
     if (!routesByControllerMap.has(key)) {
       routesByControllerMap.set(key, []);
     }
+
     const routes = routesByControllerMap.get(key)!;
+
     routes.push({...metadata, endpointMethod: method});
   }
   const routesByController = Object.fromEntries(
@@ -82,6 +92,7 @@ const generateApiClient = async () => {
         const hasAnySchema = Object.values(route.schemas).some(
           (schema) => schema
         );
+
         return `${route.endpointMethod}: (${
           hasAnySchema
             ? `args: ApiServiceInit<${

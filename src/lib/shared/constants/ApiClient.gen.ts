@@ -6,9 +6,9 @@ import { apiClientHelper, ApiServiceInit } from "@/lib/shared/helpers/ApiClient.
 import { CreateChatBodyDto } from "@/lib/shared/dtos/chat/CreateChatBody.dto";
 
 
-export const ConfigService = {
+export const ChatService = {
 createChat: (args: ApiServiceInit<CreateChatBodyDto, undefined, undefined>) => apiClientHelper<
-        typeof ConfigService.createChat, 
+        typeof ChatService.createChat, 
         CreateChatBodyDto, 
         undefined, 
         undefined
@@ -17,7 +17,9 @@ createChat: (args: ApiServiceInit<CreateChatBodyDto, undefined, undefined>) => a
           "/api/chat/firebase",
           "POST",
           args
-        ),
+        )
+    }
+export const ConfigService = {
 getFirebaseConfig: () => apiClientHelper<
         typeof ConfigService.getFirebaseConfig
         >(
@@ -26,5 +28,5 @@ getFirebaseConfig: () => apiClientHelper<
           
         )
     }
-export const apiClient = {ConfigService: ConfigService,
+export const apiClient = {ChatService: ChatService,ConfigService: ConfigService,
   }

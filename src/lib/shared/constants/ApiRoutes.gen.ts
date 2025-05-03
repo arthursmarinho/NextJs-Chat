@@ -1,6 +1,6 @@
 // // This file is auto-generated. Do not edit it manually.
 // // It will be overwritten on the next build.
-import { ConfigController } from "@/lib/api/controllers/Chat.controller";
+import { ChatController } from "@/lib/api/controllers/Chat.controller";
 import { ConfigController } from "@/lib/api/controllers/Config.controller";
 
 type RouteEntry = {
@@ -17,7 +17,7 @@ type RoutesByMethod = {
 export const routesByMethod: RoutesByMethod = {
     POST: [
       {
-        handler: ConfigController.createChat,
+        handler: ChatController.createChat,
         params: [],
         regex: "^\/chat\/firebase$",
         route: "/chat/firebase",

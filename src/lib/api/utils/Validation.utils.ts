@@ -6,6 +6,7 @@ const parsePayload = async <TPayload extends object, TClass>(
   classConstructor: ClassConstructor<TClass>
 ): Promise<TClass> => {
   const instance: TClass = plainToInstance(classConstructor, payload);
+
   await validatePayload(instance as object);
 
   return instance;

@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import Link from "next/link";
 import {
   BadgeHelp,
   BadgeInfo,
@@ -13,50 +12,51 @@ import {
   Settings,
   SquarePen,
 } from "lucide-react";
+import Link from "next/link";
 
 const mainNavbarItems: NavbarItemProps[] = [
   {
-    icon: LayoutDashboard,
-    label: "Dashboard",
     href: "/dashboard",
+    icon: LayoutDashboard,
     isDisabled: true,
+    label: "Dashboard",
   },
   {
+    href: "/tracker",
     icon: LayoutList,
     label: "Registros de Despesas",
-    href: "/tracker",
   },
   {
-    icon: NotebookPen,
-    label: "Planejamento",
     href: "/planning",
+    icon: NotebookPen,
     isDisabled: true,
+    label: "Planejamento",
   },
   {
-    icon: FileText,
-    label: "Relatórios",
     href: "/reports",
+    icon: FileText,
     isDisabled: true,
+    label: "Relatórios",
   },
 ];
 
 const footerNavbarItems: NavbarItemProps[] = [
   {
-    icon: BadgeInfo,
-    label: "Sobre",
     href: "/about",
+    icon: BadgeInfo,
     isDisabled: true,
+    label: "Sobre",
   },
   {
+    href: "/settings/account",
     icon: Settings,
     label: "Configurações",
-    href: "/settings/account",
   },
   {
-    icon: LogOut,
-    label: "Sair",
     href: "/logout",
+    icon: LogOut,
     isDisabled: true,
+    label: "Sair",
   },
 ];
 
@@ -70,8 +70,8 @@ export const CoreNavbar = () => {
   );
 
   return (
-    <nav className="w-64 border-r fixed border-gray-200 bg-white h-full flex flex-col">
-      <header className="h-20 w-full flex justify-center items-center px-6">
+    <nav className="fixed flex h-full w-64 flex-col border-r border-gray-200 bg-white">
+      <header className="flex h-20 w-full items-center justify-center px-6">
         {/* <Image
           src="/assets/images/pork/hero_logo.png"
           alt="Global logo"
@@ -79,7 +79,7 @@ export const CoreNavbar = () => {
           height={64}
         /> */}
       </header>
-      <div className="p-2 flex flex-col justify-between flex-1">
+      <div className="flex flex-1 flex-col justify-between p-2">
         <section>{renderNavbarItems(mainNavbarItems)}</section>
         <section>{renderNavbarItems(footerNavbarItems)}</section>
       </div>
@@ -88,26 +88,26 @@ export const CoreNavbar = () => {
 };
 
 interface NavbarItemProps {
-  icon: React.FC<LucideProps>;
-  label: string;
   href: string;
+  icon: React.FC<LucideProps>;
   isActive?: boolean;
   isDisabled?: boolean;
+  label: string;
 }
 
 const NavbarItem = ({
-  icon: Icon,
-  label,
   href,
+  icon: Icon,
   isActive = false,
   isDisabled = false,
+  label,
 }: NavbarItemProps) => (
   <Link href={isDisabled ? "#" : href}>
     <li
       className={clsx(
-        "flex mt-2 items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100",
+        "mt-2 flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100",
         isActive && "bg-gray-100",
-        isDisabled && "text-gray-900/60 cursor-not-allowed"
+        isDisabled && "cursor-not-allowed text-gray-900/60"
       )}
     >
       <Icon className="size-5" />

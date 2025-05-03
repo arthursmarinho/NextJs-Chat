@@ -45,6 +45,7 @@ export const processArgRequestMetadata = <TValue>(
       target,
       propertyKey,
     );
+
     argsArray[bodyArgIndex] = value;
   }
 };
@@ -68,6 +69,7 @@ export const processAndValidateArgRequestMetadata = <TValue>(
       target,
       propertyKey,
     );
+
     argsArray[bodyArgIndex] = value;
   }
 };

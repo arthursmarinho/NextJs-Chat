@@ -1,7 +1,6 @@
 import {FlatCompat} from "@eslint/eslintrc";
 import perfectionist from "eslint-plugin-perfectionist";
 import tailwind from "eslint-plugin-tailwindcss";
-import { globalIgnores } from "eslint/config";
 import {dirname as pathDirname} from "path";
 import tseslint from "typescript-eslint";
 import {fileURLToPath} from "url";
@@ -14,7 +13,6 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  globalIgnores(['*.gen.*']),
   ...tseslint.config({
     rules: {
       "@typescript-eslint/consistent-generic-constructors": "warn",
@@ -112,8 +110,16 @@ const eslintConfig = [
           next: ["if", "try"],
           prev: ["singleline-let", "singleline-const", "if", "try"],
         },
-        { "blankLine": "always", "next": "expression", "prev": ["const", "let", "var"] },
-      { "blankLine": "always", "next": ["const", "let", "var"], "prev": "expression" }
+        {
+          blankLine: "always",
+          next: "expression",
+          prev: ["const", "let", "var"],
+        },
+        {
+          blankLine: "always",
+          next: ["const", "let", "var"],
+          prev: "expression",
+        },
       ],
       "perfectionist/sort-decorators": "off",
       "perfectionist/sort-modules": "off",

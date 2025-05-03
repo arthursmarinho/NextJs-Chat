@@ -1,15 +1,15 @@
 import {PropsWithChildren, ReactNode} from "react";
 
 interface CoreCardProps extends PropsWithChildren {
-  title?: string;
   actions?: ReactNode;
+  title?: string;
 }
 
-export const CoreCard = ({title, actions, children}: CoreCardProps) => {
+export const CoreCard = ({actions, children, title}: CoreCardProps) => {
   return (
-    <div className="rounded-lg border border-gray-200 bg-white min-h-10">
+    <div className="min-h-10 rounded-lg border border-gray-200 bg-white">
       {(title || actions) && (
-        <header className="p-4 flex items-center justify-between border-b border-gray-200">
+        <header className="flex items-center justify-between border-b border-gray-200 p-4">
           {title ? <h3 className="font-semibold">{title}</h3> : <span />}
           {actions && <div className="flex items-center">{actions}</div>}
         </header>

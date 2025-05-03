@@ -10,18 +10,18 @@ import {
 } from "lucide-react";
 import {FC, ReactNode} from "react";
 
-type Value = string | number | boolean | Date | null | undefined;
+type Value = boolean | Date | null | number | string | undefined;
 
-type ColumnSortType = "text" | "number" | "date";
+type ColumnSortType = "date" | "number" | "text";
 
 export interface DatagridColumn<TData extends DataWithId> {
-  render?: (value: Value | Value[]) => ReactNode;
+  accessor?: (keyof TData)[] | keyof TData;
   header: ReactNode;
-  accessor?: keyof TData | (keyof TData)[];
+  render?: (value: Value | Value[]) => ReactNode;
   sortable?: ColumnSortType;
 }
 
-type DataWithId = object & {id: string};
+type DataWithId = {id: string} & object;
 
 interface DatagridProps<TData extends DataWithId> {
   columns: DatagridColumn<TData>[];
@@ -29,10 +29,10 @@ interface DatagridProps<TData extends DataWithId> {
 }
 
 const sharedTrClassNames = clsx(
-  "hover:bg-muted/50 transition-colors ease-in-out duration-200"
+  "transition-colors duration-200 ease-in-out hover:bg-muted/50"
 );
 
-const sharedTdClassNames = clsx("first:pl-4 last:pr-4 md:text-sm text-xs");
+const sharedTdClassNames = clsx("text-xs first:pl-4 last:pr-4 md:text-sm");
 
 export const Datagrid = <TData extends DataWithId>({
   columns,
@@ -44,18 +44,18 @@ export const Datagrid = <TData extends DataWithId>({
         <tr className={clsx(sharedTrClassNames)}>
           {columns.map((column) => (
             <th
-              key={`th-${column.accessor as string}`}
               className={clsx(
-                "text-left font-semibold text-gray-500 h-12",
+                "h-12 text-left font-semibold text-gray-500",
                 sharedTdClassNames
               )}
+              key={`th-${column.accessor as string}`}
             >
               <span className="flex items-center gap-1">
                 {column.header}
                 {column.sortable && (
                   <SortIcon
-                    type={column.sortable}
                     direction={column.sortable === "number" ? "asc" : "desc"}
+                    type={column.sortable}
                   />
                 )}
               </span>
@@ -66,11 +66,11 @@ export const Datagrid = <TData extends DataWithId>({
       <tbody>
         {data.map((row) => (
           <tr
-            key={`tr-${row.id}`}
             className={clsx(
               "border-t border-t-gray-200/70",
               sharedTrClassNames
             )}
+            key={`tr-${row.id}`}
           >
             {columns.map((column) => {
               let value: Value | Value[];
@@ -78,8 +78,8 @@ export const Datagrid = <TData extends DataWithId>({
               if (!column.accessor) {
                 return (
                   <td
+                    className={clsx("h-14 text-left", sharedTdClassNames)}
                     key={`td-${row.id}-${column.header}`}
-                    className={clsx("text-left h-14", sharedTdClassNames)}
                   >
                     {column.render ? column.render(null) : null}
                   </td>
@@ -94,8 +94,8 @@ export const Datagrid = <TData extends DataWithId>({
 
               return (
                 <td
+                  className={clsx("h-14 text-left", sharedTdClassNames)}
                   key={`td-${row.id}-${column.accessor as string}`}
-                  className={clsx("text-left h-14", sharedTdClassNames)}
                 >
                   {column.render
                     ? column.render(value as Value)
@@ -125,7 +125,7 @@ interface SortIconProps {
   type: ColumnSortType;
 }
 
-const SortIcon = ({type, direction}: SortIconProps) => {
+const SortIcon = ({direction, type}: SortIconProps) => {
   let Icon: FC<LucideProps> | null = null;
 
   if (type === "text") {

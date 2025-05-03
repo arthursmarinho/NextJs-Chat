@@ -1,11 +1,11 @@
 import type {Metadata} from "next";
 
 import "@/lib/ui/styles/globals.css";
+import {ApiClientGenerator} from "@/lib/shared/utils/ApiClientGenerator.utils";
 import {DynamicApiRoutesGenerator} from "@/lib/shared/utils/DynamicApiRoutesGenerator.utils";
 import clsx from "clsx";
 import {Geist} from "next/font/google";
 import {JSX, PropsWithChildren} from "react";
-import {ApiClientGenerator} from "@/lib/shared/utils/ApiClientGenerator.utils";
 
 const geistSans = Geist({
   subsets: ["latin"],

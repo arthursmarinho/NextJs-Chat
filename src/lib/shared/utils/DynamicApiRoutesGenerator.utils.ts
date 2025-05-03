@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import {EndpointMetadata} from "@/lib/api/decorators/Endpoint.decorator";
 import path from "path";
+
 import {ModuleLoader} from "../helpers/ModuleLoader.helper";
 import {ModuleWrite} from "../helpers/ModuleWrite.helper";
 
@@ -18,15 +19,19 @@ const getEndpointsRegistry = (controllers: Function[]) => {
     const staticMethods = Object.getOwnPropertyNames(controller);
     for (const propertyName of [...instanceMethods, ...staticMethods]) {
       if (skipProperties.includes(propertyName)) continue;
+
       const isStatic = staticMethods.includes(propertyName);
       if (!isStatic) continue;
+
       const target = controller;
       const endpointMetadata: EndpointMetadata = Reflect.getMetadata(
         propertyName,
         target,
         "endpoint"
       );
+
       if (!endpointMetadata) continue;
+
       registry.push({
         controller: controller.name,
         method: propertyName,
@@ -40,11 +45,13 @@ const getEndpointsRegistry = (controllers: Function[]) => {
 
 const generateDynamicRoutes = async () => {
   const controllersLoader = new ModuleLoader("controller");
+
   await controllersLoader.loadExports();
+
   const controllers = controllersLoader.exports;
   const controllersMap = controllersLoader.map;
 
-  let registry = getEndpointsRegistry(controllers);
+  const registry = getEndpointsRegistry(controllers);
 
   const moduleWrite = new ModuleWrite(
     path.resolve("src/lib/shared/constants/ApiRoutes.gen.ts")
@@ -52,6 +59,7 @@ const generateDynamicRoutes = async () => {
 
   if (!controllersMap.size) {
     moduleWrite.save();
+
     return;
   }
 
@@ -65,7 +73,7 @@ const generateDynamicRoutes = async () => {
 
   const routesByMethod: Record<
     string,
-    {handler: string; params: string[]; routeRegex: RegExp; route: string}[]
+    {handler: string; params: string[]; route: string; routeRegex: RegExp;}[]
   > = {};
 
   for (const item of registry) {

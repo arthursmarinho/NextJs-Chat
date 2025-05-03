@@ -8,12 +8,12 @@ interface CustomIconProps extends Partial<ComponentProps<typeof Image>> {
   name?: CustomIconName;
 }
 
-export const CustomIcon = ({name, className, ...props}: CustomIconProps) => {
+export const CustomIcon = ({className, name, ...props}: CustomIconProps) => {
   if (!name) return null;
 
   return (
     <div className={clsx("relative", className)}>
-      <Image {...props} fill alt={name} src={`/assets/svgs/${name}.svg`} />
+      <Image {...props} alt={name} fill src={`/assets/svgs/${name}.svg`} />
     </div>
   );
 };

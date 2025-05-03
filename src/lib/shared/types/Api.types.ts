@@ -26,18 +26,18 @@ export type ApiResponse<
 
 export interface ApiResponseError {
   cause?: string;
-  message: string;
-  name: string;
   details: {
     req: {
       body: null | ReadableStream<Uint8Array>;
-      headers: Headers;
       context: unknown;
+      headers: Headers;
       method: IncomingMessage["method"];
       query: NextApiRequest["query"];
       url: IncomingMessage["url"];
     };
   };
+  message: string;
+  name: string;
   timestamp: number;
 }
 

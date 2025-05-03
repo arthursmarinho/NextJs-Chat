@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {ConfigApiService} from "../../services/ConfigServiceApi.service";
 import {FirebaseState, initializeFirebaseApp} from "../../store/firebaseSlice";
 import {RootState} from "../../store/store";
+import {useLocalStorage} from "../useLocalStorage";
 
 type UseFirebaseData = Omit<FirebaseState, "app">;
 
@@ -15,20 +16,20 @@ export const useFirebase = (): UseFirebaseData => {
   const {app, auth, firestore, storage}: FirebaseState = useSelector(
     (state: RootState) => state.firebase
   );
+  const localStorage = useLocalStorage();
 
   const shouldFetchFirebaseConfig =
     !app &&
     typeof window !== "undefined" &&
-    !localStorage.getItem("financeapp:firebase.config");
+    !localStorage.getItem("firebase.config");
 
   const getFirebaseConfigQuery = useQuery({
     enabled: shouldFetchFirebaseConfig,
     queryFn: async () => {
       const config = await ConfigApiService.getFirebaseConfig();
-      localStorage.setItem(
-        "financeapp:firebase.config",
-        JSON.stringify(config)
-      );
+
+      localStorage.setItem("firebase.config", JSON.stringify(config));
+
       return config;
     },
     queryKey: [ConfigApiService.getFirebaseConfig.name],
@@ -37,7 +38,7 @@ export const useFirebase = (): UseFirebaseData => {
   useEffect(() => {
     const cached =
       typeof window !== "undefined"
-        ? localStorage.getItem("financeapp:firebase.config")
+        ? localStorage.getItem("firebase.config")
         : null;
 
     const data = cached ? JSON.parse(cached) : getFirebaseConfigQuery.data;

@@ -11,7 +11,7 @@ import {useCallback, useMemo} from "react";
 import {useFirebase} from "./useFirebase";
 
 interface UseAuthenticationData {
-  getCurrentUser: () => User | null;
+  getCurrentUser: () => null | User;
   signInWithGoogle: () => Promise<null | User>;
   signOut: () => Promise<void>;
 }
@@ -34,7 +34,7 @@ export const useAuthentication = (): UseAuthenticationData => {
     await firebaseSignOut(auth);
   }, [auth]);
 
-  const getCurrentUser = useCallback((): User | null => {
+  const getCurrentUser = useCallback((): null | User => {
     return auth?.currentUser ?? null;
   }, [auth]);
 

@@ -16,8 +16,16 @@ const FileTypePath: Record<FileType, string> = {
 };
 
 export class ModuleLoader {
-  private exportsMap: ExportMap = new Map<string, Function[]>();
+  get exports(): Function[] {
+    return Array.from(this.map.values()).flat();
+  }
+  get map(): ExportMap {
+    return this.exportsMap;
+  }
+
   private dirPath: string;
+
+  private exportsMap: ExportMap = new Map<string, Function[]>();
 
   constructor(private type: FileType) {
     this.dirPath = FileTypePath[type];
@@ -45,16 +53,9 @@ export class ModuleLoader {
 
         const target = exported;
         if (!this.exportsMap.has(filePath)) this.exportsMap.set(filePath, []);
+
         this.exportsMap.get(filePath)!.push(target);
       }
     }
-  }
-
-  get map(): ExportMap {
-    return this.exportsMap;
-  }
-
-  get exports(): Function[] {
-    return Array.from(this.map.values()).flat();
   }
 }

@@ -12,7 +12,6 @@ const handleError = (
   return NextResponse.json(
     [
       {
-        message: error?.message,
         details: {
           req: {
             body: req.body,
@@ -23,6 +22,7 @@ const handleError = (
             url: req.url,
           },
         },
+        message: error?.message,
         timestamp: Date.now(),
       } as ApiResponseError,
     ] as ApiResponse<ApiResponseError[]>,

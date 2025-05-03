@@ -10,8 +10,8 @@ export interface ApiServiceInit<
   TParams extends object | undefined = undefined
 > extends Omit<RequestInit, "body" | "method"> {
   body?: TBody;
-  queryParams?: TQueryParams;
   params?: TParams;
+  queryParams?: TQueryParams;
 }
 
 export const apiClientHelper = async <
@@ -29,6 +29,7 @@ export const apiClientHelper = async <
       if (key in init.params!) {
         return encodeURIComponent(init.params![key] as string);
       }
+
       throw new Error(`Missing value for URL parameter: ${key as string}`);
     });
   }
@@ -41,8 +42,8 @@ export const apiClientHelper = async <
 
   const response = await fetch(url, {
     ...init,
-    method,
     body: init?.body ? JSON.stringify(init?.body) : undefined,
+    method,
   });
 
   return (await response.json()) as ApiResponse<TResponse>;

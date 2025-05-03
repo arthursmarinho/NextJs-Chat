@@ -1,12 +1,13 @@
 import {PropsWithChildren} from "react";
-import {CoreNavbar} from "./components/CoreNavbar";
+
 import {CoreHeader} from "./components/CoreHeader";
+import {CoreNavbar} from "./components/CoreNavbar";
 
 const CoreLayout = async ({children}: PropsWithChildren) => {
   return (
-    <div className="size-full flex bg-neutral-50/50">
+    <div className="flex size-full bg-neutral-50/50">
       <CoreNavbar />
-      <div className="flex-col flex-1 ml-64">
+      <div className="ml-64 flex-1 flex-col">
         <CoreHeader />
         <main className="p-6">{children}</main>
       </div>

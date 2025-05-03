@@ -5,8 +5,8 @@ const TrackerPage = async () => {
   return (
     <>
       <CorePageHeader
-        title="Registro de Transacões"
         description="Cadastre suas entradas e saídas financeiras para acompanhar seu fluxo de caixa"
+        title="Registro de Transacões"
       />
       <div className="flex gap-4">
         <div className="flex-[5]">

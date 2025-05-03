@@ -1,6 +1,7 @@
-import {NextRequest, NextResponse} from "next/server";
-import {ApiUtils} from "./Api.utils";
 import {routesByMethod} from "@/lib/shared/constants/ApiRoutes.gen";
+import {NextRequest, NextResponse} from "next/server";
+
+import {ApiUtils} from "./Api.utils";
 
 const handleDynamicRoute = async (
   req: NextRequest,
@@ -22,6 +23,7 @@ const handleDynamicRoute = async (
     if (match) {
       const paramValues = match.slice(1);
       const params: Record<string, string> = {};
+
       route.params.forEach((param: string, i: number) => {
         params[param] = paramValues[i];
       });

@@ -1,104 +1,106 @@
-import {DatagridColumn} from "@/lib/ui/components/Datagrid";
-import clsx from "clsx";
-import Money from "@/lib/ui/components/Money";
-import {CorePageSection} from "../../components/CorePageSection";
-import {CoreDatagridCard} from "../../components/CoreDatagridCard";
 import {Button} from "@/lib/ui/components/Button";
+import {DatagridColumn} from "@/lib/ui/components/Datagrid";
+import Money from "@/lib/ui/components/Money";
+import clsx from "clsx";
 import {DownloadIcon, FunnelIcon} from "lucide-react";
 
+import {CoreDatagridCard} from "../../components/CoreDatagridCard";
+import {CorePageSection} from "../../components/CorePageSection";
+
 interface Transaction {
-  id: string;
-  date: Date;
-  category: string;
   account: string;
-  paymentMethod: string;
-  keyword?: string;
-  instalment?: number;
   amount: number;
+  category: string;
+  date: Date;
+  id: string;
+  instalment?: number;
+  keyword?: string;
+  paymentMethod: string;
   status: "paid" | "pending";
   totalInstalment?: number;
 }
 
 const mockedTransactions: Transaction[] = [
   {
+    account: "Santander",
+    amount: 100,
+    category: "Moradia",
+    date: new Date("2023-10-01"),
     id: "1",
-    date: new Date("2023-10-01"),
-    category: "Moradia",
-    account: "Santander",
-    paymentMethod: "Cartão de Crédito",
-    amount: 100,
-    status: "paid",
     keyword: "Aluguel",
+    paymentMethod: "Cartão de Crédito",
+    status: "paid",
   },
   {
+    account: "Itaú",
+    amount: -50,
+    category: "Transporte",
+    date: new Date("2023-10-01"),
     id: "2",
-    date: new Date("2023-10-01"),
-    category: "Transporte",
-    account: "Itaú",
-    paymentMethod: "Dinheiro",
-    amount: -50,
-    status: "pending",
     instalment: 1,
+    keyword: "Gasolina",
+    paymentMethod: "Dinheiro",
+    status: "pending",
     totalInstalment: 3,
-    keyword: "Gasolina",
   },
   {
-    id: "3",
-    date: new Date("2023-10-01"),
-    category: "Moradia",
     account: "Santander",
-    paymentMethod: "Cartão de Crédito",
     amount: 100,
-    status: "paid",
-    keyword: "Aluguel",
-  },
-  {
-    id: "4",
-    date: new Date("2023-10-01"),
-    category: "Transporte",
-    account: "Itaú",
-    paymentMethod: "Dinheiro",
-    amount: 50,
-    status: "pending",
-    keyword: "Gasolina",
-  },
-  {
-    id: "5",
-    date: new Date("2023-10-01"),
     category: "Moradia",
-    account: "Santander",
+    date: new Date("2023-10-01"),
+    id: "3",
+    keyword: "Aluguel",
     paymentMethod: "Cartão de Crédito",
-    amount: -100,
+    status: "paid",
+  },
+  {
+    account: "Itaú",
+    amount: 50,
+    category: "Transporte",
+    date: new Date("2023-10-01"),
+    id: "4",
+    keyword: "Gasolina",
+    paymentMethod: "Dinheiro",
     status: "pending",
   },
   {
-    id: "6",
+    account: "Santander",
+    amount: -100,
+    category: "Moradia",
     date: new Date("2023-10-01"),
-    category: "Transporte",
-    account: "Itaú",
-    paymentMethod: "Dinheiro",
-    amount: -50,
+    id: "5",
+    paymentMethod: "Cartão de Crédito",
     status: "pending",
+  },
+  {
+    account: "Itaú",
+    amount: -50,
+    category: "Transporte",
+    date: new Date("2023-10-01"),
+    id: "6",
     keyword: "Manutenção",
+    paymentMethod: "Dinheiro",
+    status: "pending",
   },
 ];
 
 const columns: DatagridColumn<Transaction>[] = [
   {
-    header: "Data",
     accessor: "date",
-    sortable: "date",
+    header: "Data",
     render: (value) => (
       <span className="font-medium">
         {(value as Date).toLocaleDateString("pt-BR")}
       </span>
     ),
+    sortable: "date",
   },
   {
-    header: "Categoria",
     accessor: ["category", "keyword"],
+    header: "Categoria",
     render(value) {
       const [category, keyword] = value as string[];
+
       return (
         <div className="flex flex-col gap-1">
           <span>{category}</span>
@@ -108,11 +110,12 @@ const columns: DatagridColumn<Transaction>[] = [
     },
   },
   {
-    header: "Conta",
     accessor: ["account", "paymentMethod", "instalment", "totalInstalment"],
+    header: "Conta",
     render: (value) => {
       const [account, paymentMethod, instalment, totalInstalment] =
         value as string[];
+
       return (
         <div className="flex flex-col gap-1">
           <span>{account}</span>
@@ -127,12 +130,12 @@ const columns: DatagridColumn<Transaction>[] = [
     },
   },
   {
-    header: "Status",
     accessor: "status",
+    header: "Status",
     render: (value) => (
       <span
         className={clsx(
-          "px-2 py-1 rounded-md text-xs font-semibold",
+          "rounded-md px-2 py-1 text-xs font-semibold",
           value === "paid" ? "bg-green-100" : "bg-orange-100"
         )}
       >
@@ -145,8 +148,8 @@ const columns: DatagridColumn<Transaction>[] = [
     ),
   },
   {
-    header: "Valor",
     accessor: "amount",
+    header: "Valor",
     render: (value) => <Money amount={value as number} />,
   },
 ];
@@ -155,10 +158,10 @@ export const TrackerTransactionsDatagridCard = () => {
   return (
     <CorePageSection>
       <CoreDatagridCard
-        title="Transações"
+        actions={<TransactionsDatagridActions />}
         columns={columns}
         data={mockedTransactions}
-        actions={<TransactionsDatagridActions />}
+        title="Transações"
       />
     </CorePageSection>
   );
@@ -167,10 +170,10 @@ export const TrackerTransactionsDatagridCard = () => {
 export const TransactionsDatagridActions = () => {
   return (
     <div className="flex items-center gap-2">
-      <Button isDisabled className="btn btn-primary" Icon={FunnelIcon}>
+      <Button className="btn btn-primary" Icon={FunnelIcon} isDisabled>
         Filtrar
       </Button>
-      <Button isDisabled className="btn btn-secondary" Icon={DownloadIcon}>
+      <Button className="btn btn-secondary" Icon={DownloadIcon} isDisabled>
         Exportar
       </Button>
     </div>
