@@ -9,9 +9,7 @@ export const SignInHero = (): JSX.Element => {
           alt="Login Hero"
           className="rounded-lg object-cover xl:rounded-3xl"
           fill
-          src={
-            "https://vdj37fwhgasjsixn.public.blob.vercel-storage.com/assets/images/auth-login-hero.png"
-          }
+          src={"/assets/images/hero.jpg"}
         />
       </div>
     </div>

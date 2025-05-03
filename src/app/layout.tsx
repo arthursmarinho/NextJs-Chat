@@ -13,8 +13,8 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  description: "Plataforma de gestão financeira",
-  title: "Lil Pig Finanças",
+  description: "Chat",
+  title: "Super Chat",
 };
 
 if (process.env.NODE_ENV === "development") {

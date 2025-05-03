@@ -2,7 +2,7 @@ import {redirect} from "next/navigation";
 import {JSX} from "react";
 
 const IndexPage = (): JSX.Element => {
-  redirect("/dashboard");
+  redirect("/inbox");
 };
 
 export default IndexPage;

@@ -9,7 +9,7 @@ import {CreateChatBodyDto} from "@/lib/shared/dtos/chat/CreateChatBody.dto";
 import {ChatModel} from "@/lib/shared/models/Chat.model";
 
 @Controller("/chat")
-export class ConfigController {
+export class ChatController {
   @Endpoint("POST", "/firebase")
   static async createChat(
     @Body({schema: CreateChatBodyDto}) dto: CreateChatBodyDto

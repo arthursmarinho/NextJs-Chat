@@ -10,11 +10,11 @@ export const SignInContent = () => {
       <div className="relative flex w-[400px] flex-col bg-white">
         <header className="mb-8 flex flex-col items-center gap-10">
           <div className="relative aspect-[1.55] w-3/5">
-            <Image
+            {/* <Image
               alt="Hero logo"
               fill
               src="/assets/images/pork/hero_logo.png"
-            />
+            /> */}
           </div>
           <div className="w-full space-y-1">
             <h1 className="text-2xl font-bold">Entre na plataforma</h1>
