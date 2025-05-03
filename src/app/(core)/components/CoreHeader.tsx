@@ -10,7 +10,7 @@ export const CoreHeader = () => {
   useEffect(() => {
     const fetch = async () => {
       const response: UserModel =
-        (await apiClient.UserService.getUserConfig()) as UserModel;
+        (await apiClient.UserService.getUser()) as UserModel;
 
       setUser(response);
     };
