@@ -1,16 +1,13 @@
-import type {Metadata} from "next";
+import type { Metadata } from "next";
 
 import "@/lib/ui/styles/globals.css";
-import {ApiClientGenerator} from "@/lib/shared/utils/ApiClientGenerator.utils";
-import {DynamicApiRoutesGenerator} from "@/lib/shared/utils/DynamicApiRoutesGenerator.utils";
+import { ApiClientGenerator } from "@/lib/shared/utils/ApiClientGenerator.utils";
+import { DynamicApiRoutesGenerator } from "@/lib/shared/utils/DynamicApiRoutesGenerator.utils";
 import clsx from "clsx";
-import {Geist} from "next/font/google";
-import {JSX, PropsWithChildren} from "react";
+import { Inter } from "next/font/google";
+import { JSX, PropsWithChildren } from "react";
 
-const geistSans = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   description: "Chat",
@@ -22,13 +19,13 @@ if (process.env.NODE_ENV === "development") {
   DynamicApiRoutesGenerator.generateDynamicRoutes();
 }
 
-const RootLayout = ({children}: PropsWithChildren): JSX.Element => {
+const RootLayout = ({ children }: PropsWithChildren): JSX.Element => {
   return (
     <html className="size-full" lang="en">
       <head />
       <body
         className={clsx(
-          geistSans.variable,
+          inter.className,
           "relative size-full bg-white antialiased"
         )}
       >
